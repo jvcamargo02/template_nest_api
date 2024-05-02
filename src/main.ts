@@ -31,8 +31,8 @@ async function bootstrap() {
   );
 
   const options = new DocumentBuilder()
-    .setTitle('API João Bicudo')
-    .setDescription('API João Bicudo - Developed by Crosoften Enginnering Team')
+    .setTitle('API Template')
+    .setDescription('API Template - Developed by Crosoften Enginnering Team')
     .setVersion('2.0')
     .addBearerAuth()
     .addServer('/')
