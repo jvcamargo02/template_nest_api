@@ -3,7 +3,8 @@ import {
   ApiBadRequestResponse,
   ApiInternalServerErrorResponse,
 } from '@nestjs/swagger';
-import { ErrorMessages } from '../../error-messages';
+
+import { ErrorMessages } from '@errors/index';
 
 export function CommonErrors() {
   return applyDecorators(

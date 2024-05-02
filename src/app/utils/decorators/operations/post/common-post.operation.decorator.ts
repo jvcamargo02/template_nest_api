@@ -1,48 +1,45 @@
-import { Patch, Put, Type, applyDecorators } from '@nestjs/common';
+import { Post, Type, applyDecorators } from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiBody,
-  ApiOkResponse,
+  ApiCreatedResponse,
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
+
 import { CommonErrors } from '../common/common-errors.swagger.decorator';
-import { CommonNotFound } from '../common/common-not-found.swagger.decorator';
 import { CommonUnauthorized } from '../common/common-unauthorized.swagger.decorator';
 import { CommonUnprocessableEntity } from '../common/common-unprocessable-entity.swagger.decorator';
+import { Allow } from 'class-validator';
 
-export function CommonEditOperation<T>({
+export function CommonPostOperation<T>({
   model,
   route,
   tags,
   dto,
   authenticated = true,
-  isPatch = true,
 }: {
   model: Type<T>;
   route: string;
   tags: string[];
   dto: Type<T>;
   authenticated?: boolean;
-  isPatch?: boolean;
 }) {
   return applyDecorators(
-    isPatch ? Patch(route) : Put(route),
+    Post(route),
     ApiTags(...tags),
-    ApiBody({ type: dto }),
-    authenticated ? ApiBearerAuth() : null,
-    ApiOkResponse({
-      description: `Atualiza o ${model.name} solicitado`,
-      status: 200,
+    authenticated ? ApiBearerAuth() : Allow(),
+    ApiCreatedResponse({
+      description: `Cria um novo ${model.name}`,
       type: model,
     }),
     ApiOperation({
-      summary: `Atualiza o ${model.name} solicitado`,
-      description: `Atualiza o ${model.name} solicitado`,
+      summary: `Cria um novo ${model.name}`,
+      description: `Cria um novo ${model.name}`,
     }),
+    ApiBody({ type: dto }),
     CommonErrors(),
-    authenticated ? CommonUnauthorized() : null,
-    CommonNotFound(),
+    authenticated ? CommonUnauthorized() : Allow(),
     CommonUnprocessableEntity(),
   );
 }

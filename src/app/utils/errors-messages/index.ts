@@ -7,4 +7,5 @@ export const ErrorMessages = {
   UNPROCESSABLE_ENTITY: 'Entidade não processável',
   UNAUTHORIZED: 'Não autorizado',
   COMMON_NOT_FOUND: 'Registro não encontrado',
+  COMMON_DELETE_ERROR: 'Erro ao deletar registro',
 };

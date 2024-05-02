@@ -1,15 +1,17 @@
-import { Delete, Type, applyDecorators } from '@nestjs/common';
-import { CommonErrors } from '../common/common-errors.swagger.decorator';
-import { CommonNotFound } from '../common/common-not-found.swagger.decorator';
-import { CommonUnauthorized } from '../common/common-unauthorized.swagger.decorator';
 import {
   ApiBearerAuth,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
+import { Delete, Type, applyDecorators } from '@nestjs/common';
 
-export function CommontDeleteOperation<T>({
+import { CommonUnauthorized } from '../common/common-unauthorized.swagger.decorator';
+import { CommonErrors } from '../common/common-errors.swagger.decorator';
+import { CommonNotFound } from '../common/common-not-found.swagger.decorator';
+import { Allow } from 'class-validator';
+
+export function CommonDeleteOperation<T>({
   model,
   route,
   tags,
@@ -23,7 +25,7 @@ export function CommontDeleteOperation<T>({
   return applyDecorators(
     Delete(route),
     ApiTags(...tags),
-    authenticated ? ApiBearerAuth() : null,
+    authenticated ? ApiBearerAuth() : Allow(),
     ApiOkResponse({
       description: `Deleta o ${model.name} solicitado`,
       status: 200,
@@ -34,7 +36,7 @@ export function CommontDeleteOperation<T>({
       description: `Deleta o ${model.name} solicitado`,
     }),
     CommonErrors(),
-    authenticated ? CommonUnauthorized() : null,
+    authenticated ? CommonUnauthorized() : Allow(),
     CommonNotFound(),
   );
 }

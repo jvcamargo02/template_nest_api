@@ -1,4 +1,5 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
+
 import { ErrorMessages } from '@errors/index';
 
 export function handleErrors(error: any, message?: string) {

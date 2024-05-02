@@ -22,6 +22,10 @@
       "@config/*": ["src/config/*"],
       "@errors/*": ["src/app/utils/errors-messages/*"],
       "@operations/*": ["src/app/utils/decorators/operations/*"],
+      "@commons/*": ["src/app/utils/commons/*"],
+      "@pipes/*": ["src/app/utils/pipes/*"],
+      "@decorators/*": ["src/app/utils/decorators/*"],
+      "@entities/*": ["src/app/utils/entities/*"],
     },
   }
 }

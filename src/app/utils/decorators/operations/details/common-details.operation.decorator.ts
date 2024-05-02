@@ -3,19 +3,19 @@ import {
   ApiBearerAuth,
   ApiOkResponse,
   ApiOperation,
-  ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
+
 import { CommonErrors } from '../common/common-errors.swagger.decorator';
 import { CommonUnauthorized } from '../common/common-unauthorized.swagger.decorator';
 import { CommonNotFound } from '../common/common-not-found.swagger.decorator';
+import { Allow } from 'class-validator';
 
 export function CommonDetailsOperation<T>({
   model,
   route,
   tags,
   authenticated = true,
-  params = 'ID',
 }: {
   model: Type<T>;
   route: string;
@@ -26,12 +26,7 @@ export function CommonDetailsOperation<T>({
   return applyDecorators(
     Get(route),
     ApiTags(...tags),
-    authenticated ? ApiBearerAuth() : null,
-    ApiParam({
-      name: params,
-      description: `ID do ${model.name}`,
-      type: 'string',
-    }),
+    authenticated ? ApiBearerAuth() : Allow(),
     ApiOkResponse({
       description: `Retorna o ${model.name} solicitado`,
       status: 200,
@@ -42,7 +37,7 @@ export function CommonDetailsOperation<T>({
       description: `Retorna o ${model.name} solicitado`,
     }),
     CommonErrors(),
-    authenticated ? CommonUnauthorized() : null,
+    authenticated ? CommonUnauthorized() : Allow(),
     CommonNotFound(),
   );
 }
